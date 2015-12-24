@@ -7,3 +7,4 @@ build.properties
 .settings
 *~
 mods/*/*.jar
+.idea/

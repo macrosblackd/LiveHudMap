@@ -157,4 +157,8 @@ public class LiveMapWindow extends WWindow {
 	public void toggle() {
 		hud.toggleComponent(this);
 	}
+
+	public void addGroundItem(long id, String name, float x, float y, int layer) {
+		liveMap.addItem(id, name, x, y, layer);
+	}
 }

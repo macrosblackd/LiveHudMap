@@ -1,6 +1,7 @@
 package org.gotti.wurmonline.clientmods.livehudmap;
 
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
 import org.gotti.wurmonline.clientmods.livehudmap.renderer.MapRenderer;
 import org.gotti.wurmonline.clientmods.livehudmap.renderer.RenderType;
@@ -37,9 +38,9 @@ public class MapLayerView {
 		}
 	}
 
-	public BufferedImage render(int px, int py) {
+	public BufferedImage render(int px, int py, Map<Long, RadarItem> groundItems) {
 		int sz = type.getMapSize() / zoom;
-		return renderer.createMapDump(px - sz / 2, py - sz / 2, sz, sz, px, py);
+		return renderer.createMapDump(px - sz / 2, py - sz / 2, sz, sz, px, py, groundItems);
 	}
 
 	public void setRenderer(RenderType renderType) {

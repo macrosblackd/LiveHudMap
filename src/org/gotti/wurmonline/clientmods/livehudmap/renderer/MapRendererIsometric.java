@@ -2,9 +2,11 @@ package org.gotti.wurmonline.clientmods.livehudmap.renderer;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
 import com.wurmonline.client.game.NearTerrainDataBuffer;
 import com.wurmonline.mesh.Tiles.Tile;
+import org.gotti.wurmonline.clientmods.livehudmap.RadarItem;
 
 public class MapRendererIsometric extends AbstractSurfaceRenderer {
 	
@@ -12,7 +14,7 @@ public class MapRendererIsometric extends AbstractSurfaceRenderer {
 		super(buffer);
 	}
 	
-    public BufferedImage createMapDump(int xo, int yo, int lWidth, int lHeight, int px, int py) {
+    public BufferedImage createMapDump(int xo, int yo, int lWidth, int lHeight, int px, int py, Map<Long, RadarItem> groundItems) {
         if (yo < 0)
             yo = 0;
         if (xo < 0)

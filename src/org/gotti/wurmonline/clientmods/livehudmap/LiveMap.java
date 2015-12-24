@@ -1,7 +1,13 @@
 package org.gotti.wurmonline.clientmods.livehudmap;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.wurmonline.client.options.Options;
+import com.wurmonline.client.renderer.GroundItemData;
+import com.wurmonline.client.renderer.cell.GroundItemCellRenderable;
+import javafx.beans.property.adapter.ReadOnlyJavaBeanBooleanProperty;
 import org.gotti.wurmonline.clientmods.livehudmap.renderer.RenderType;
 import org.lwjgl.opengl.GL11;
 
@@ -30,6 +36,8 @@ public class LiveMap implements TerrainChangeListener, CaveBufferChangeListener 
 	private int y;
 	
 	private int px = 0, py = 0;
+
+	private final Map<Long, RadarItem> groundItems = new HashMap<Long,RadarItem>();
 	
 	public LiveMap(World world, int size) {
 		this.size = size;
@@ -52,7 +60,7 @@ public class LiveMap implements TerrainChangeListener, CaveBufferChangeListener 
 			px = pos.getTileX();
 			py = pos.getTileY();
 			
-			image = getLayer().render(px, py);
+			image = getLayer().render(px, py, groundItems);
 			if (texture != null) {
 				WurmGL.wglDeleteTexture(texture.getId());
 			}
@@ -138,6 +146,24 @@ public class LiveMap implements TerrainChangeListener, CaveBufferChangeListener 
 			GL11.glVertex2f(xPosition + width1, yPosition + 0);
 
 			GL11.glEnd();
+		}
+	}
+
+	public void addItem(long id, String name, float x, float y, int layer) {
+		RadarItem item = new RadarItem(id, name, x, y, layer);
+		if(this.groundItems.containsKey(item.getId())) {
+			this.removeItem(item.getId());
+		}
+
+		this.groundItems.put(item.getId(), item);
+	}
+
+	void removeItem(long id) {
+		RadarItem item = this.groundItems.get(id);
+		if(item != null) {
+			this.groundItems.remove(id);
+		} else if(Options.logExtraErrors.value()) {
+			System.out.println("Can\'t remove item " + id + " because it doesn\'t exist");
 		}
 	}
 
